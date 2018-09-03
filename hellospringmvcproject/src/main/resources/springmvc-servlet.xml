@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/mvc 
+       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+       http://www.springframework.org/schema/cache
+       http://www.springframework.org/schema/cache/spring-cache.xsd">
+   
+    <!-- 拦截,表单验证 -->
+    <!-- 
+       <mvc:annotation-driven></mvc:annotation-driven>
+
+     -->
+    
+    <context:annotation-config />
+    
+	<!-- 把标记了注解的类转换为bean ,这里并不是只扫描controller,要不然concroller注入报错 -->
+	<context:component-scan base-package="com.me.controller" />
+	
+	<!--
+	
+	<context:component-scan base-package="com.me.service" />
+	<context:component-scan base-package="com.me.mapper" />
+	<context:component-scan base-package="com.me.entity" />  -->
+	
+	
+ 
+     <!--启用缓存注解-->
+     <!-- 
+       <cache:annotation-driven cache-manager="cacheManager"/>
+    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+    </bean>
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactory"/>
+    </bean>
+      -->
+     
+    
+
+   <!-- 配置MultipartResolver -->
+   <!-- 
+       <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  
+        <property name="maxUploadSize">
+            <value>10485760</value>
+        </property>
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+    </bean>
+    -->
+   
+
+	
+ 
+	<!-- 视图 beans -->
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+		<property name="order" value="1" /><!-- 默认视图解析器 -->
+	</bean>
+	
+
+
+    
+
+   
+
+</beans>
