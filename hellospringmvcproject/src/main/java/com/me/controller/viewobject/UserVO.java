@@ -1,21 +1,21 @@
-package com.me.entity;
+package com.me.controller.viewobject;
 
 import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
-public class User {
-	private Integer userId;
+public class UserVO {
+
+	@NotBlank(message = "username 不能为空")
 	private String userName;
+	
+	@Range(min = 18, max = 60, message = "年龄必须大于{min},小于{max}")
     private int userAge;
     private String userAddress;
     private String userPassword;
     private Date userBirthday;
 	
-	public Integer getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -42,16 +42,13 @@ public class User {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-	
 	public Date getUserBirthday() {
 		return userBirthday;
 	}
-	
 	public void setUserBirthday(Date userBirthday) {
 		this.userBirthday = userBirthday;
 	}
 	public String toString(){
-		return "User [id=" + userId + ", name=" + userName ;
+		return "User" ;
 	}
-
 }

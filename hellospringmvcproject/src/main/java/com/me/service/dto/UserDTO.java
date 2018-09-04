@@ -1,8 +1,11 @@
-package com.me.entity;
+package com.me.service.dto;
 
 import java.util.Date;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class UserDTO {
+
 	private Integer userId;
 	private String userName;
     private int userAge;
@@ -43,6 +46,7 @@ public class User {
 		this.userPassword = userPassword;
 	}
 	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")  
 	public Date getUserBirthday() {
 		return userBirthday;
 	}
@@ -53,5 +57,4 @@ public class User {
 	public String toString(){
 		return "User [id=" + userId + ", name=" + userName ;
 	}
-
 }
