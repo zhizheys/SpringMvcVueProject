@@ -19,51 +19,36 @@
        http://www.springframework.org/schema/cache/spring-cache.xsd">
    
     <!-- 拦截,表单验证 -->
-    <!-- 
-       <mvc:annotation-driven></mvc:annotation-driven>
+    <mvc:annotation-driven></mvc:annotation-driven>
 
-     -->
-    
-    <context:annotation-config />
-    
+	<context:annotation-config />
 	<!-- 把标记了注解的类转换为bean ,这里并不是只扫描controller,要不然concroller注入报错 -->
 	<context:component-scan base-package="com.me.controller" />
-	
-	<!--
-	
 	<context:component-scan base-package="com.me.service" />
+	<context:component-scan base-package="com.me.service.impl" />
 	<context:component-scan base-package="com.me.mapper" />
-	<context:component-scan base-package="com.me.entity" />  -->
-	
-	
+	<context:component-scan base-package="com.me.entity" />
  
      <!--启用缓存注解-->
-     <!-- 
-       <cache:annotation-driven cache-manager="cacheManager"/>
+    <cache:annotation-driven cache-manager="cacheManager"/>
     <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:ehcache.xml"/>
     </bean>
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager" ref="cacheManagerFactory"/>
     </bean>
-      -->
-     
-    
 
    <!-- 配置MultipartResolver -->
-   <!-- 
-       <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 上传文件大小限制，单位为字节-10Mb -->
         <property name="maxUploadSize">
             <value>10485760</value>
         </property>
+        <!-- 请求的编码格式 -->
         <property name="defaultEncoding">
             <value>UTF-8</value>
         </property>
     </bean>
-    -->
-   
-
 	
  
 	<!-- 视图 beans -->
@@ -80,7 +65,37 @@
 	
 
 
+	<!-- ajax json 返回 -->
+   <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <property name="messageConverters">
+	        <list>
+	            <!--json视图拦截器，读取到@ResponseBody的时候去配置它-->
+	            <ref bean="mappingJacksonHttpMessageConverter"/>
+	        </list>
+	    </property>
+	</bean>
+	<!--json转化器，它可以将结果转化-->
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	    <property name="supportedMediaTypes">
+	        <list>
+	            <value>application/json;charset=UTF-8</value>
+	        </list>
+	    </property>
+	</bean>
     
+    
+    <!-- 拦截器 ,登录拦截-->
+    <mvc:interceptors> 
+	   <!-- 多个拦截器，顺序执行 -->
+	   <mvc:interceptor> 
+		    <mvc:mapping path="/**"/>
+		    <bean class="com.me.controller.framework.LoginInterceptor"></bean> 
+	   </mvc:interceptor>
+   </mvc:interceptors> 
+ 
+ 
+   <!-- 配置全局异常处理的javaBean，这样DispatcherServlet就可以直接访问他 -->
+  <bean class="com.me.controller.framework.CustomExceptionResolver"></bean>
 
    
 

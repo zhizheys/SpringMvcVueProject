@@ -5,19 +5,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import com.me.entity.User;
 import com.me.mapper.UserMapper;
 import com.me.service.UserService;
 import com.me.service.dto.UserDTO;
 
-
+@Service("userService")
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserMapper userDao;
 
-
+   @Override
 	public UserDTO getUserById(Integer id) {
 		UserDTO userDTO= new UserDTO();
 		User user =userDao.getUserById(id);
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
 		return userDTO;
 	}
 	
-
+   @Override
 	public int addUser(UserDTO user){
 		
 		User addUser = new User();
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService {
 		return addUser.getUserId();
 	}
 	
+   @Override
 	public List<UserDTO> getAllUser() {
 		List<UserDTO> userDTOList = new ArrayList<UserDTO>();
 		List<User> userList = userDao.getAllUser();
