@@ -25,7 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class BaseController {
 	
 	//common logging facade
-	private final static Log logger = LogFactory.getLog(BaseController.class);
+	protected final static Log logger = LogFactory.getLog(BaseController.class);
 	
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {

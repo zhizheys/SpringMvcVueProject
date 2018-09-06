@@ -4,6 +4,7 @@ import java.awt.event.ItemEvent;
 import java.awt.im.spi.InputMethod;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,16 +47,14 @@ import com.me.service.dto.UserDTO;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
-	private final static Log logger = LogFactory.getLog(UserController.class);
 	@Autowired
 	private UserService userService;
 
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	@ResponseBody
 	public String show() {
-		int userId = 3;
 		String result = "hello world";
-
+		
 		logger.debug("DEBUG ...............................");
 		logger.info("INFO ................................."+ "user/show controller info");
 		logger.warn("warn ................................."+ "user/show controller info");
@@ -89,6 +88,66 @@ public class UserController extends BaseController {
 
 		return result;
 	}
+	
+	@RequestMapping(value = "/showalluser", method = RequestMethod.GET)
+	@ResponseBody
+	public ApiResult showAllUser(HttpServletRequest request,HttpServletResponse response) {
+
+		ApiResult apiResult = new ApiResult();
+		UserDTO userDTO = new UserDTO();
+		List<UserVO> userVOList = new ArrayList<UserVO>();
+		List<UserDTO> userList = userService.getAllUser();
+		
+		for(UserDTO item : userList){
+			UserVO userVO = new UserVO();
+			userVO.setUserId(item.getUserId());
+			userVO.setUserName(item.getUserName());
+			userVO.setUserAge(item.getUserAge());
+			userVO.setUserAddress(item.getUserAddress());
+			userVO.setUserPassword(item.getUserPassword());
+			userVO.setUserBirthday(item.getUserBirthday());
+			userVOList.add(userVO);
+		}
+		
+		apiResult.setIsSuccess(true);
+		apiResult.setMessage("success");
+		apiResult.setData(userVOList);
+		
+		return apiResult;
+	}
+	
+	
+//	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
+//	public ModelAndView addUser(HttpServletRequest request,@Valid @ModelAttribute UserViewModel user,BindingResult result) {
+//		ModelAndView modelAndView = new ModelAndView();
+//		List<ObjectError> allErrors=null;
+//		
+//		if(result.hasErrors()){
+//			logger.error("===========================add user valid error");
+//			allErrors = result.getAllErrors();
+//			modelAndView.addObject("allErrors", allErrors);
+//			modelAndView.setViewName("user/registeruser");
+//			return modelAndView;
+//		}
+//		
+//
+//		Date date = new Date();
+//		User addUser = new User();
+//		addUser.setUserName(user.getUserName());
+//		addUser.setUserAge(user.getUserAge());
+//		addUser.setUserAddress(user.getUserAddress());
+//		addUser.setUserPassword(user.getUserPassword());
+//		addUser.setUserBirthday(user.getUserBirthday());
+//
+//		int userId = userService.addUser(addUser);
+//		User userFind = userService.getUserById(userId);
+//		System.out.println("==============================add user id is :" + userFind.getUserId());
+//
+//		//return "redirect:/user/showalluser";
+//		 modelAndView = new ModelAndView("redirect:/user/showalluser");
+//		 
+//		 return modelAndView;
+//	}
 
 
 }
