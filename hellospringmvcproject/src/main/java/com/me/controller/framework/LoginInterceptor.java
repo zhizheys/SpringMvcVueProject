@@ -4,9 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+@Service
 public class LoginInterceptor implements HandlerInterceptor {
 	
 	@Override
@@ -14,27 +16,29 @@ public class LoginInterceptor implements HandlerInterceptor {
         
         //获取请求的url
         String url = request.getRequestURI();
-        
-        if(url.indexOf("login")>=0){
-            return true;
-        }
-        
-        //判断session
-        HttpSession session  = request.getSession();
-        //从session中取出用户身份信息
-        String username = (String) session.getAttribute("username");
-        
-        if(username != null){
-            //身份存在，放行
-            return true;
-        }
-        
-        //执行这里表示用户身份需要认证，跳转登陆页面
-        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-        
-        //return false表示拦截，不向下执行
-        //return true表示放行
-        return false;
+//        
+//        if(url.indexOf("login")>=0){
+//            return true;
+//        }
+//        
+//        //判断session
+//        HttpSession session  = request.getSession();
+//        //从session中取出用户身份信息
+//        String username = (String) session.getAttribute("username");
+//        
+//        if(username != null){
+//            //身份存在，放行
+//            return true;
+//        }
+//        
+//        //执行这里表示用户身份需要认证，跳转登陆页面
+//        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+//        
+//        //return false表示拦截，不向下执行
+//        //return true表示放行
+//        return false;
+		System.out.println("=================== " + url);
+		return true;
     }
 	
 	 /** 

@@ -12,10 +12,10 @@ import com.me.mapper.UserMapper;
 import com.me.service.UserService;
 import com.me.service.dto.UserDTO;
 
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
+	@Autowired(required=false)
 	private UserMapper userDao;
 
    @Override
