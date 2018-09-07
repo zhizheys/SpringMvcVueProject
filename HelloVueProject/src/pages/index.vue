@@ -28,9 +28,9 @@
             </Radio>
         </RadioGroup>
         <RadioGroup v-model="animal">
-            <Radio label="金斑蝶"></Radio>
-            <Radio label="爪哇犀牛"></Radio>
-            <Radio label="印度黑羚"></Radio>
+            <Radio label="香蕉"></Radio>
+            <Radio label="苹果"></Radio>
+            <Radio label="哈密瓜"></Radio>
         </RadioGroup>
      </div>
 
