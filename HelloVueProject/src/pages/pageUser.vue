@@ -1,12 +1,12 @@
 <template>
   <div id="pageUser" style="margin-top:20px;">
-    <h1>Users Info:</h1>
+    <h3>Users Info:</h3>
     <Table :columns="columns8" :data="data7" size="small" ref="table"></Table>
 
     <div class="margin-top-10">
-          <i-button @click="getAllUser">get user</i-button>
+          <i-button type="primary" @click="getAllUser">get user</i-button>
     </div>
-    <Table :columns="columns6" :data="data6" size="small" ref="table"></Table>
+    <Table class="margin-top-10" :columns="columns6" :data="data6" size="small" ref="table"></Table>
   </div>
 </template>
 
@@ -141,21 +141,6 @@
                         "day": 2593,
                         "week": 2507,
                         "month": 1537
-                    },
-                    {
-                        "name": "Name3",
-                        "fav": 0,
-                        "show": 7181,
-                        "weak": 8007,
-                        "signin": 8477,
-                        "click": 1879,
-                        "active": 16,
-                        "day7": 2249,
-                        "day30": 3450,
-                        "tomorrow": 377,
-                        "day": 1561,
-                        "week": 3219,
-                        "month": 1588
                     }
                 ],
                 columns6: [
@@ -197,10 +182,7 @@
                     }
                     
                 ],
-                data6: [
-                   {"userName":"张三","userAge":100,"userAddress":"深圳","userPassword":"eecc","userBirthday":"2015-03-04 00:00:00","userId":3},{"userName":"李四","userAge":30,"userAddress":"深圳","userPassword":"ffff","userBirthday":"2016-03-05 00:00:00","userId":10}
-                ]
-        
+                data6: []
             }
         },
     methods:{
@@ -208,26 +190,19 @@
      
             var url="http://localhost:9999/hellospringmvcproject/user/showalluser";
             
-            // this.$http.get(url).then(function(data){
-            //     var json=data.body;
-            //     alert(json);
-            //     var result=JSON.parse(json);
+            this.$http.get(url).then(function(data){
+                var result=data.body;
                 
-            //     if(result.isSuccess){
-            //         this.data6=result.data;
-            //     }else{
-            //         alert(result.message);
-            //     }
+                if(result.isSuccess){
+                    this.data6=result.data;
+                }else{
+                    alert(result.message);
+                }
 
 
-            // },function(response){
-            //     console.info(response);
-            // })
-
-
-            this.$http.get('http://news-at.zhihu.com/api/4/news/latest', data => {
-                this.$set('news', data.stories);
-                });
+            },function(response){
+                console.info("=====error=======" + response);
+            });
                 
         }
     },
