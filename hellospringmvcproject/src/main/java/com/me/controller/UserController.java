@@ -67,26 +67,17 @@ public class UserController extends BaseController {
 	//restful url 风格http://localhost:8080/TestSpringMybatis/user/userinfo/10
 	@RequestMapping(value = "/userinfo/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public String getUserById(@PathVariable("id") int id) {
+	public ApiResult getUserById(@PathVariable("id") int id) {
 		int userId = id;
-		String result = null;
+		ApiResult apiResult = new ApiResult();
 		UserDTO user = new UserDTO();
 		user = userService.getUserById(userId);
 
-		ApiResult apiResult = new ApiResult();
 		apiResult.setIsSuccess(true);
 		apiResult.setMessage("success");
 		apiResult.setData(user);
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		try {
-			result = objectMapper.writeValueAsString(apiResult);
-		} catch (Exception ex) {
-			result = ex.getMessage();
-		}
-
-		return result;
+		return apiResult;
 	}
 	
 	@RequestMapping(value = "/showalluser", method = RequestMethod.GET)
@@ -117,37 +108,36 @@ public class UserController extends BaseController {
 	}
 	
 	
-//	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
-//	public ModelAndView addUser(HttpServletRequest request,@Valid @ModelAttribute UserViewModel user,BindingResult result) {
-//		ModelAndView modelAndView = new ModelAndView();
-//		List<ObjectError> allErrors=null;
-//		
-//		if(result.hasErrors()){
-//			logger.error("===========================add user valid error");
-//			allErrors = result.getAllErrors();
-//			modelAndView.addObject("allErrors", allErrors);
-//			modelAndView.setViewName("user/registeruser");
-//			return modelAndView;
-//		}
-//		
-//
-//		Date date = new Date();
-//		User addUser = new User();
-//		addUser.setUserName(user.getUserName());
-//		addUser.setUserAge(user.getUserAge());
-//		addUser.setUserAddress(user.getUserAddress());
-//		addUser.setUserPassword(user.getUserPassword());
-//		addUser.setUserBirthday(user.getUserBirthday());
-//
-//		int userId = userService.addUser(addUser);
-//		User userFind = userService.getUserById(userId);
-//		System.out.println("==============================add user id is :" + userFind.getUserId());
-//
-//		//return "redirect:/user/showalluser";
-//		 modelAndView = new ModelAndView("redirect:/user/showalluser");
-//		 
-//		 return modelAndView;
-//	}
+	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
+	public ApiResult addUser(HttpServletRequest request,@Valid @ModelAttribute UserVO user,BindingResult result) {
+		ApiResult apiResult = new ApiResult();
+		List<ObjectError> allErrors=null;
+		String message="";
+		Boolean isSuccess=true;
+		
+		if(result.hasErrors()){
+			logger.error("===========================add user valid error");
+			isSuccess=false;
+			message="validation error";
+			allErrors = result.getAllErrors();
+		}
+	
+		Date date = new Date();
+		UserDTO addUser = new UserDTO();
+		addUser.setUserName(user.getUserName());
+		addUser.setUserAge(user.getUserAge());
+		addUser.setUserAddress(user.getUserAddress());
+		addUser.setUserPassword(user.getUserPassword());
+		addUser.setUserBirthday(user.getUserBirthday());
+
+		int userId = userService.addUser(addUser);
+		
+		apiResult.setIsSuccess(isSuccess);
+		apiResult.setMessage(message);
+		apiResult.setData(allErrors);
+		 
+		return apiResult;
+	}
 
 
 }

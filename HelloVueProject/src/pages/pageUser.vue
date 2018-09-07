@@ -1,10 +1,50 @@
 <template>
   <div id="pageUser" style="margin-top:20px;">
-    <h3>Users Info:</h3>
-    <Table :columns="columns8" :data="data7" size="small" ref="table"></Table>
+    <div class="margin-top-10">
+          <i-button type="primary" @click="getUser">get user</i-button>
+    </div>
+
+    <div style="width:800px;margin:0 auto;">
+        <h3>Add User:{{formItem.userName}}</h3>
+        <Form :model="formItem" :label-width="80">
+            <FormItem label="UserName">
+                <Input v-model="formItem.userName" placeholder="Enter user name ..."></Input>
+            </FormItem>
+            <FormItem label="UserAge">
+                <InputNumber v-model="formItem.userAge" :max="100" :min="0" :step="1" ></InputNumber>
+            </FormItem>
+            <FormItem label="UserAddress">
+                <Select v-model="formItem.userAddress">
+                   <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+            </FormItem>
+            <FormItem label="Birthday">
+                <Row>
+                    <Col span="11">
+                        <DatePicker type="date" placeholder="Select date" v-model="formItem.userBirthday"></DatePicker>
+                    </Col>
+                </Row>
+            </FormItem>
+            <FormItem label="UserPassword">
+                <Input v-model="formItem.userPassword" type="password"></Input>
+            </FormItem>
+            <FormItem label="Radio">
+                <RadioGroup v-model="formItem.radio">
+                    <Radio label="male">Male</Radio>
+                    <Radio label="female">Female</Radio>
+                </RadioGroup>
+            </FormItem>
+    
+            <FormItem>
+                <Button type="primary" @click="addUser">Submit</Button>
+                <Button style="margin-left: 8px">Cancel</Button>
+            </FormItem>
+        </Form>
+
+   </div>
 
     <div class="margin-top-10">
-          <i-button type="primary" @click="getAllUser">get user</i-button>
+          <i-button type="primary" @click="getAllUser">get all user</i-button>
     </div>
     <Table class="margin-top-10" :columns="columns6" :data="data6" size="small" ref="table"></Table>
   </div>
@@ -19,128 +59,26 @@
     },
     data () {
             return {
-                columns8: [
+                formItem: {
+                    userName: null,
+                    userAge:null,
+                    userAddress: null,
+                    radio: null,
+                    userPassword: null,
+                    userBirthday: null,
+                },
+                cityList: [
                     {
-                        "title": "Name",
-                        "key": "name",
-                        "fixed": "left",
-                        "width": 200
+                        value: 'shanghai',
+                        label: '上海'
                     },
                     {
-                        "title": "Show",
-                        "key": "show",
-                        "width": 150,
-                        "sortable": true,
-                        filters: [
-                            {
-                                label: 'Greater than 4000',
-                                value: 1
-                            },
-                            {
-                                label: 'Less than 4000',
-                                value: 2
-                            }
-                        ],
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-                            if (value === 1) {
-                                return row.show > 4000;
-                            } else if (value === 2) {
-                                return row.show < 4000;
-                            }
-                        }
+                        value: 'beijing',
+                        label: '北京'
                     },
                     {
-                        "title": "Weak",
-                        "key": "weak",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "Signin",
-                        "key": "signin",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "Click",
-                        "key": "click",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "Active",
-                        "key": "active",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "7, retained",
-                        "key": "day7",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "30, retained",
-                        "key": "day30",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "The next day left",
-                        "key": "tomorrow",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "Day Active",
-                        "key": "day",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "Week Active",
-                        "key": "week",
-                        "width": 150,
-                        "sortable": true
-                    },
-                    {
-                        "title": "Month Active",
-                        "key": "month",
-                        "width": 150,
-                        "sortable": true
-                    }
-                ],
-                data7: [
-                    {
-                        "name": "Name1",
-                        "fav": 0,
-                        "show": 7302,
-                        "weak": 5627,
-                        "signin": 1563,
-                        "click": 4254,
-                        "active": 1438,
-                        "day7": 274,
-                        "day30": 285,
-                        "tomorrow": 1727,
-                        "day": 558,
-                        "week": 4440,
-                        "month": 5610
-                    },
-                    {
-                        "name": "Name2",
-                        "fav": 0,
-                        "show": 4720,
-                        "weak": 4086,
-                        "signin": 3792,
-                        "click": 8690,
-                        "active": 8470,
-                        "day7": 8172,
-                        "day30": 5197,
-                        "tomorrow": 1684,
-                        "day": 2593,
-                        "week": 2507,
-                        "month": 1537
+                        value: 'shenzhen',
+                        label: '深圳'
                     }
                 ],
                 columns6: [
@@ -186,6 +124,25 @@
             }
         },
     methods:{
+        getUser: function () {
+     
+            var url="http://localhost:9999/hellospringmvcproject/user/userinfo/3";
+            
+            this.$http.get(url).then(function(data){
+                var result=data.body;
+                
+                if(result.isSuccess){
+                    this.formItem=result.data;
+                }else{
+                    alert(result.message);
+                }
+
+
+            },function(response){
+                console.info("=====error=======" + response);
+            });
+                
+        },
         getAllUser: function () {
      
             var url="http://localhost:9999/hellospringmvcproject/user/showalluser";
@@ -195,6 +152,28 @@
                 
                 if(result.isSuccess){
                     this.data6=result.data;
+                }else{
+                    alert(result.message);
+                }
+
+
+            },function(response){
+                console.info("=====error=======" + response);
+            });
+                
+        },
+        addUser: function () {
+     
+            var url="http://localhost:9999/hellospringmvcproject/user/adduser";
+             
+             var userObj="";
+             var userJson=JSON.parse(userObj);
+
+            this.$http.post(url,userJson,{emulateJSON:true}).then(function(data){
+                var result=data.body;
+                
+                if(result.isSuccess){
+                    alert("add success");
                 }else{
                     alert(result.message);
                 }
