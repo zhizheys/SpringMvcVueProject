@@ -39,8 +39,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.me.controller.viewobject.UserVO;
 import com.me.controller.framework.BaseController;
 import com.me.controller.viewobject.ApiResult;
+import com.me.controller.viewobject.UserBookVO;
 import com.me.entity.User;
 import com.me.service.UserService;
+import com.me.service.dto.UserBookDTO;
 import com.me.service.dto.UserDTO;
 
 @Controller
@@ -138,6 +140,73 @@ public class UserController extends BaseController {
 		 
 		return apiResult;
 	}
+	
+	@RequestMapping(value = "/deleteuser/{id}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public ApiResult deleteUserById(@PathVariable("id") int id) {
+		ApiResult apiResult = new ApiResult();
+		userService.deleteUserById(id);
+		
+		apiResult.setIsSuccess(true);
+		apiResult.setMessage("success");
+		apiResult.setData(null);
 
+		return apiResult;
+	}
 
+	@RequestMapping(value = "/updateuser", method = RequestMethod.PUT)
+	public ApiResult updateUser(HttpServletRequest request,@Valid @ModelAttribute UserVO user,BindingResult result) {
+		ApiResult apiResult = new ApiResult();
+		List<ObjectError> allErrors=null;
+		String message="";
+		Boolean isSuccess=true;
+		
+		if(result.hasErrors()){
+			isSuccess=false;
+			message="validation error";
+			allErrors = result.getAllErrors();
+		}
+	
+		UserDTO updateUser = new UserDTO();
+		updateUser.setUserId(user.getUserId());
+		updateUser.setUserName(user.getUserName());
+		updateUser.setUserAge(user.getUserAge());
+		updateUser.setUserAddress(user.getUserAddress());
+		updateUser.setUserPassword(user.getUserPassword());
+		updateUser.setUserBirthday(user.getUserBirthday());
+
+		int userId = userService.updateUser(updateUser);
+		
+		apiResult.setIsSuccess(isSuccess);
+		apiResult.setMessage(message);
+		apiResult.setData(allErrors);
+		 
+		return apiResult;
+	}
+	
+	@RequestMapping(value = "/showalluserbook", method = RequestMethod.GET)
+	@ResponseBody
+	public ApiResult showAllUserBook(HttpServletRequest request,HttpServletResponse response) {
+
+		ApiResult apiResult = new ApiResult();
+		List<UserBookVO> userBookVOList = new ArrayList<UserBookVO>();
+		List<UserBookDTO> userBookList = userService.getAllUserBook();
+		
+		for(UserBookDTO item : userBookList){
+			UserBookVO userVO = new UserBookVO();
+			userVO.setUserName(item.getUserName());
+			userVO.setUserAge(item.getUserAge());
+			userVO.setUserBirthday(item.getUserBirthday());
+			userVO.setBookName(item.getBookName());
+			userVO.setBookPrice(item.getBookPrice());
+			userBookVOList.add(userVO);
+		}
+		
+		apiResult.setIsSuccess(true);
+		apiResult.setMessage("success");
+		apiResult.setData(userBookVOList);
+		
+		return apiResult;
+	}
+	
 }

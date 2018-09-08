@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="gbk"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
 
     <diskStore path="java.io.tmpdir" />
 
-    　　<defaultCache
+    銆�銆�<defaultCache
         maxElementsInMemory="10000"
         eternal="false"
         timeToIdleSeconds="120"

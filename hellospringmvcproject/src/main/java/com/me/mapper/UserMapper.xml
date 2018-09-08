@@ -16,4 +16,21 @@
         select * from [dbo].[User]
     </select>
     
+    <select id="deleteUserById" parameterType="int">
+        delete from [dbo].[User] where UserId= #{id}
+    </select>
+    
+    <select id="updateUser" parameterType="com.me.entity.User" >
+        update [dbo].[User] set UserName=#{userName},UserAge=#{userAge},UserAddress=#{userAddress},UserPassword=#{userPassword},UserBirthday=#{userBirthday} where UserId= #{id}
+    </select>
+    
+    <select id="getAllUserBook"  resultType="com.me.entity.UserBook">
+         select a.UserName,a.UserAge,a.UserBirthday,c.BookName,c.BookPrice from dbo.[User] a
+			  inner join dbo.UserBook b
+			  on a.UserId = b.UserId
+			  inner join dbo.Book c
+			  on b.BookId = c.Id
+    </select>
+    
+    
 </mapper>
