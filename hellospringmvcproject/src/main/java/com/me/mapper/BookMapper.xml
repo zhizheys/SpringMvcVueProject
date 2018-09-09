@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.me.mapper.BookMapper">
+
+    <select id="getBookById" parameterType="int" resultType="com.me.entity.Book">
+        select * from [dbo].[Book] where Id= #{id}
+    </select>
+   
+   <insert id="addBook" parameterType="com.me.entity.Book" useGeneratedKeys="true" keyProperty="id">
+         INSERT INTO [dbo].[Book](BookName,BookPrice)
+          VALUES(#{bookName},#{bookPrice});
+    </insert>
+    
+    <select id="getAllBook"  resultType="com.me.entity.Book">
+        select * from [dbo].[Book]
+    </select>
+    
+    <select id="deleteBookById" parameterType="int">
+        delete from [dbo].[Book] where Id= #{id}
+    </select>
+    
+    <select id="updateBook" parameterType="com.me.entity.Book" >
+        update [dbo].[Book] set BookName=#{bookName},BookPrice=#{bookPrice} where Id= #{id}
+    </select>
+    
+    
+</mapper>

@@ -73,10 +73,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer deleteUserById(int id) {
-        Integer aInteger= userDao.deleteUserById(id);
-		
-		return 0;
-
+        Integer count= userDao.deleteUserById(id);
+		return count;
 	}
 
 	@Override
