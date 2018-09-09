@@ -51,6 +51,7 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
+	protected final static Log logger = LogFactory.getLog(UserController.class);
 
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	@ResponseBody
