@@ -1,11 +1,16 @@
 <template>
   <div id="pageUser" style="margin-top:20px;">
-    <div class="margin-top-10">
-          <i-button type="primary" @click="getUser">get user</i-button>
-    </div>
 
-    <div style="width:800px;margin:0 auto;">
-        <h3>Add User:{{formItem.userName}}</h3>
+   <div class="margin-top-10">
+          <i-button type="primary" @click="getAllUser">get all user</i-button>
+          <i-button type="primary" @click="getUser">get user</i-button>
+          <i-button type="primary" @click="getUser">add user</i-button>
+    </div>
+    <Table class="margin-top-10" height="250" :columns="columns6" :data="data6" size="small" ref="table"></Table>
+ 
+
+    <div style="width:800px;margin:0 auto;margin-top:30px;">
+        <h3>Update User:{{formItem.userName}}</h3>
         <Form :model="formItem" :label-width="80">
             <FormItem label="UserName">
                 <Input v-model="formItem.userName" placeholder="Enter user name ..."></Input>
@@ -36,17 +41,15 @@
             </FormItem>
     
             <FormItem>
-                <Button type="primary" @click="addUser">Submit</Button>
+                <Button type="primary" @click="updateUser">Update user</Button>
                 <Button style="margin-left: 8px">Cancel</Button>
             </FormItem>
         </Form>
 
    </div>
 
-    <div class="margin-top-10">
-          <i-button type="primary" @click="getAllUser">get all user</i-button>
-    </div>
-    <Table class="margin-top-10" :columns="columns6" :data="data6" size="small" ref="table"></Table>
+
+ 
   </div>
 </template>
 
@@ -59,11 +62,21 @@
     },
     data () {
             return {
+                modal6: false,
+                loading: true,
                 formItem: {
                     userName: null,
                     userAge:null,
                     userAddress: null,
                     radio: null,
+                    userPassword: null,
+                    userBirthday: null,
+                },
+                updateUserItem: {
+                    userId:null,
+                    userName: null,
+                    userAge:null,
+                    userAddress: null,
                     userPassword: null,
                     userBirthday: null,
                 },
@@ -85,13 +98,11 @@
                     {
                         "title": "UserId",
                         "key": "userId",
-                        "fixed": "left",
                         "width": 200
                     },
                     {
                         "title": "Name",
                         "key": "userName",
-                        "fixed": "left",
                         "width": 200
                     },
                     {
@@ -117,6 +128,42 @@
                         "key": "userBirthday",
                         "width": 150,
                         "sortable": true
+                    },
+                    {
+                        title: 'Action',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index)
+                                        }
+                                    }
+                                }, 'Edit'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index)
+                                        }
+                                    }
+                                }, 'Delete')
+                            ]);
+                        }
+                    
                     }
                     
                 ],
@@ -124,6 +171,13 @@
             }
         },
     methods:{
+        show (index) {
+                this.modal6 = true;
+                this.formItem=this.data6[index];
+            },
+        remove (index) {
+            this.data6.splice(index, 1);
+        },
         getUser: function () {
      
             var url="http://localhost:9999/hellospringmvcproject/user/userinfo/3";
@@ -165,12 +219,10 @@
         addUser: function () {
      
             var url="http://localhost:9999/hellospringmvcproject/user/adduser";
+            var userObj=this.formItem;
+            var userJson=JSON.stringify(userObj);
 
-             var userObj=this.formItem;
-             var userJson=JSON.stringify(userObj);
-             console.log(userJson);
-
-            this.$http.post(url,userJson,{emulateJSON:true}).then(function(data){
+            this.$http.post(url,userObj).then(function(data){
                 var result=data.body;
                 
                 if(result.isSuccess){
@@ -181,15 +233,43 @@
 
 
             },function(response){
-                console.info("=====error=======" + response.body);
+                console.info("=====error=======" + JSON.stringify(response));
+            });
+                
+        },
+        updateUser: function () {
+     
+            var url="http://localhost:9999/hellospringmvcproject/user/updateuser";
+            var userObj=this.formItem;
+            var userJson=JSON.stringify(userObj);
+     
+            this.$http.put(url,userObj).then(function(data){
+                var result=data.body;
+                
+                if(result.isSuccess){
+                    alert("update success");
+                    this.formItem={
+                                    userName: null,
+                                    userAge:null,
+                                    userAddress: null,
+                                    radio: null,
+                                    userPassword: null,
+                                    userBirthday: null,
+                                };
+                }else{
+                    alert(result.message);
+                }
+
+            },function(response){
+                console.info("=====error=======" + JSON.stringify(response));
             });
                 
         }
     },
-    beforeCreate:function(){},//组件实例化之前
-    created:function(){},//组件实例化了
-    beforeMount:function(){},//组件写入dom结构之前
-    mounted:function(){//组件写入dom结构了
+    beforeCreate:function(){},
+    created:function(){},
+    beforeMount:function(){},
+    mounted:function(){
       console.log(this.$el);
       
     },
