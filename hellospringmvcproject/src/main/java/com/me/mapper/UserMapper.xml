@@ -21,7 +21,7 @@
     </select>
     
     <select id="updateUser" parameterType="com.me.entity.User" >
-        update [dbo].[User] set UserName=#{userName},UserAge=#{userAge},UserAddress=#{userAddress},UserPassword=#{userPassword},UserBirthday=#{userBirthday} where UserId= #{id}
+        update [dbo].[User] set UserName=#{userName},UserAge=#{userAge},UserAddress=#{userAddress},UserPassword=#{userPassword},UserBirthday=#{userBirthday} where UserId= #{userId}
     </select>
     
     <select id="getAllUserBook"  resultType="com.me.entity.UserBook">

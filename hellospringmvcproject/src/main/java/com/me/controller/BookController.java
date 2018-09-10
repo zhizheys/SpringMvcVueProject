@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -73,9 +74,10 @@ public class BookController extends BaseController {
 	}
 
 	@RequestMapping(value = "/addbook", method = RequestMethod.POST)
-	public ApiResult addBook(HttpServletRequest request, @Valid @ModelAttribute BookVO book, BindingResult result) {
+	public ApiResult addBook(HttpServletRequest request, @Valid @RequestBody BookVO book, BindingResult result) {
 		ApiResult apiResult = new ApiResult();
 		List<ObjectError> allErrors = null;
+		List<String> errorList=new ArrayList<String>();
 		String message = "";
 		Boolean isSuccess = true;
 
@@ -84,18 +86,23 @@ public class BookController extends BaseController {
 			isSuccess = false;
 			message = "validation error";
 			allErrors = result.getAllErrors();
+			
+			for(ObjectError obj: allErrors){
+				errorList.add(obj.getDefaultMessage());
+			}
 		}
 
-		Date date = new Date();
-		BookDTO addBook = new BookDTO();
-		addBook.setBookName(book.getBookName());
-		addBook.setBookPrice(book.getBookPrice());
-
-		int bookId = bookService.addBook(addBook);
+		if(isSuccess){
+			Date date = new Date();
+			BookDTO addBook = new BookDTO();
+			addBook.setBookName(book.getBookName());
+			addBook.setBookPrice(book.getBookPrice());
+			int bookId = bookService.addBook(addBook);
+		}
 
 		apiResult.setIsSuccess(isSuccess);
 		apiResult.setMessage(message);
-		apiResult.setData(allErrors);
+		apiResult.setData(errorList);
 
 		return apiResult;
 	}
@@ -113,9 +120,10 @@ public class BookController extends BaseController {
 	}
 
 	@RequestMapping(value = "/updatebook", method = RequestMethod.PUT)
-	public ApiResult updateBook(HttpServletRequest request, @Valid @ModelAttribute BookVO book, BindingResult result) {
+	public ApiResult updateBook(HttpServletRequest request, @Valid @RequestBody BookVO book, BindingResult result) {
 		ApiResult apiResult = new ApiResult();
 		List<ObjectError> allErrors = null;
+		List<String> errorList=new ArrayList<String>();
 		String message = "";
 		Boolean isSuccess = true;
 
@@ -123,17 +131,23 @@ public class BookController extends BaseController {
 			isSuccess = false;
 			message = "validation error";
 			allErrors = result.getAllErrors();
+			
+			for(ObjectError obj: allErrors){
+				errorList.add(obj.getDefaultMessage());
+			}
 		}
-
-		BookDTO updateBook = new BookDTO();
-		updateBook.setId(book.getId());
-		updateBook.setBookName(book.getBookName());
-		updateBook.setBookPrice(book.getBookPrice());
-		int bookId = bookService.updateBook(updateBook);
+		
+		if(isSuccess){
+			BookDTO updateBook = new BookDTO();
+			updateBook.setId(book.getId());
+			updateBook.setBookName(book.getBookName());
+			updateBook.setBookPrice(book.getBookPrice());
+			Integer bookId = bookService.updateBook(updateBook);
+		}
 
 		apiResult.setIsSuccess(isSuccess);
 		apiResult.setMessage(message);
-		apiResult.setData(allErrors);
+		apiResult.setData(errorList);
 
 		return apiResult;
 	}

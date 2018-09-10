@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserService {
 	public Integer updateUser(UserDTO user) {
 
 		User updateUser = new User();
+		updateUser.setUserId(user.getUserId());
 		updateUser.setUserName(user.getUserName());
 		updateUser.setUserAge(user.getUserAge());
 		updateUser.setUserPassword(user.getUserPassword());

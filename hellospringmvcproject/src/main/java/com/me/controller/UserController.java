@@ -28,6 +28,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -112,9 +113,11 @@ public class UserController extends BaseController {
 	
 	
 	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
-	public ApiResult addUser(HttpServletRequest request,@Valid @ModelAttribute UserVO user,BindingResult result) {
+	@ResponseBody
+	public ApiResult addUser(HttpServletRequest request,@Valid @RequestBody UserVO user,BindingResult result) {
 		ApiResult apiResult = new ApiResult();
 		List<ObjectError> allErrors=null;
+		List<String> errorList=new ArrayList<String>();
 		String message="";
 		Boolean isSuccess=true;
 		
@@ -123,21 +126,27 @@ public class UserController extends BaseController {
 			isSuccess=false;
 			message="validation error";
 			allErrors = result.getAllErrors();
+			
+			for(ObjectError obj: allErrors){
+				errorList.add(obj.getDefaultMessage());
+			}
 		}
 	
-		Date date = new Date();
-		UserDTO addUser = new UserDTO();
-		addUser.setUserName(user.getUserName());
-		addUser.setUserAge(user.getUserAge());
-		addUser.setUserAddress(user.getUserAddress());
-		addUser.setUserPassword(user.getUserPassword());
-		addUser.setUserBirthday(user.getUserBirthday());
+		if(isSuccess){
+			Date date = new Date();
+			UserDTO addUser = new UserDTO();
+			addUser.setUserName(user.getUserName());
+			addUser.setUserAge(user.getUserAge());
+			addUser.setUserAddress(user.getUserAddress());
+			addUser.setUserPassword(user.getUserPassword());
+			addUser.setUserBirthday(date);
 
-		int userId = userService.addUser(addUser);
+			int userId = userService.addUser(addUser);
+		}
 		
 		apiResult.setIsSuccess(isSuccess);
 		apiResult.setMessage(message);
-		apiResult.setData(allErrors);
+		apiResult.setData(errorList);
 		 
 		return apiResult;
 	}
@@ -156,31 +165,40 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/updateuser", method = RequestMethod.PUT)
-	public ApiResult updateUser(HttpServletRequest request,@Valid @ModelAttribute UserVO user,BindingResult result) {
+	@ResponseBody
+	public ApiResult updateUser(HttpServletRequest request,@Valid @RequestBody UserVO user,BindingResult result) {
 		ApiResult apiResult = new ApiResult();
+		List<String> errorList=new ArrayList<String>();
 		List<ObjectError> allErrors=null;
 		String message="";
 		Boolean isSuccess=true;
+		
+		logger.error("===========================update user");
 		
 		if(result.hasErrors()){
 			isSuccess=false;
 			message="validation error";
 			allErrors = result.getAllErrors();
+			
+			for(ObjectError obj: allErrors){
+				errorList.add(obj.getDefaultMessage());
+			}
 		}
 	
-		UserDTO updateUser = new UserDTO();
-		updateUser.setUserId(user.getUserId());
-		updateUser.setUserName(user.getUserName());
-		updateUser.setUserAge(user.getUserAge());
-		updateUser.setUserAddress(user.getUserAddress());
-		updateUser.setUserPassword(user.getUserPassword());
-		updateUser.setUserBirthday(user.getUserBirthday());
+		if(isSuccess){
+			UserDTO updateUser = new UserDTO();
+			updateUser.setUserId(user.getUserId());
+			updateUser.setUserName(user.getUserName());
+			updateUser.setUserAge(user.getUserAge());
+			updateUser.setUserAddress(user.getUserAddress());
+			updateUser.setUserPassword(user.getUserPassword());
+			updateUser.setUserBirthday(user.getUserBirthday());
+            userService.updateUser(updateUser);
+		}
 
-		int userId = userService.updateUser(updateUser);
-		
 		apiResult.setIsSuccess(isSuccess);
 		apiResult.setMessage(message);
-		apiResult.setData(allErrors);
+		apiResult.setData(errorList);
 		 
 		return apiResult;
 	}

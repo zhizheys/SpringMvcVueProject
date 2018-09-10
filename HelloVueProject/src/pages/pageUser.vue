@@ -165,9 +165,10 @@
         addUser: function () {
      
             var url="http://localhost:9999/hellospringmvcproject/user/adduser";
-             
-             var userObj="";
-             var userJson=JSON.parse(userObj);
+
+             var userObj=this.formItem;
+             var userJson=JSON.stringify(userObj);
+             console.log(userJson);
 
             this.$http.post(url,userJson,{emulateJSON:true}).then(function(data){
                 var result=data.body;
@@ -180,7 +181,7 @@
 
 
             },function(response){
-                console.info("=====error=======" + response);
+                console.info("=====error=======" + response.body);
             });
                 
         }
