@@ -141,7 +141,26 @@
                 this.formItem=this.data6[index];
             },
         remove (index) {
-            this.data6.splice(index, 1);
+            var self=this;
+            var userId=self.data6[index].userId;
+
+            self.$Modal.confirm({
+                    title: 'Delete Data',
+                    content: '<p>Are you sure to delete ?</p>',
+                    onOk: () => {
+                        pageUserAction.deleteUserInfo(userId,function(obj){
+                            if(obj !=null){
+                                if(obj.isSuccess){
+                                    self.data6.splice(index, 1);
+                                    self.$Message.success('delete user success');
+                                }else{
+                                    alert(obj.message);
+                                }
+                            }
+                        });
+                    }
+           });
+
         },
         showAddUser:function(){
             //console.log("eeeeee");
@@ -203,6 +222,39 @@
     beforeDestroy:function(){},//组件销毁之前
     destroyed:function(){}//组件已经销毁
   }
+
+var pageUserAction=(function(){
+    function deleteUserInfo(id,callback) {
+
+       jsLibAction.ajax({ 
+            type:"DELETE", 
+            url:"http://localhost:9999/hellospringmvcproject/user/deleteuser/" + id,
+            dataType:"json", 
+            beforeSend:function(){ 
+                //some js code 
+            }, 
+            success:function(msg){ 
+                callback(msg); 
+            }, 
+            error:function(){
+                var obj={
+                    "isSuccess":false,
+                    "message":"server error",
+                    "data":null
+                }
+                callback(obj); 
+            } 
+        });
+    
+    }
+
+    return {
+        deleteUserInfo:deleteUserInfo
+    }
+
+})();
+
+
 </script>
 
 <style scoped>

@@ -61,23 +61,18 @@
         alert("test");
       },
       getAllUserBook: function () {
-     
-            var url="http://localhost:9999/hellospringmvcproject/user/showalluserbook";
-            
-            this.$http.get(url).then(function(data){
-                var result=data.body;
-                
-                if(result.isSuccess){
-                    this.userBookList=result.data;
-                }else{
-                    alert(result.message);
+            var self=this;
+
+            pageQuiListAction.getAllUserBookInfo(function(obj){
+                if(obj !=null){
+                    if(obj.isSuccess){
+                        self.userBookList=obj.data;
+                    }else{
+                        alert("error");
+                    }
                 }
 
-
-            },function(response){
-                console.info("=====error=======" + response);
             });
-                
         }
     },
     beforeCreate:function(){ console.log("beforeCreate");},//组件实例化之前
@@ -86,13 +81,47 @@
     mounted:function(){//组件写入dom结构了
       console.log("mounted");
       this.getAllUserBook();
-
     },
     beforeUpdate:function(){ console.log("beforeUpdate");},//组件更新前
     updated:function(){ console.log("updated");},//组件更新比如修改了文案
     beforeDestroy:function(){ console.log("beforeDestroy");},//组件销毁之前
     destroyed:function(){ console.log("destroyed");}//组件已经销毁
   }
+
+
+var pageQuiListAction=(function(){
+    function getAllUserBookInfo(callback) {
+
+       jsLibAction.ajax({ 
+            type:"GET", 
+            url:"http://localhost:9999/hellospringmvcproject/user/showalluserbook",
+            dataType:"json", 
+            //data:{"val1":"abc","val2":123,"val3":"456"}, 
+            beforeSend:function(){ 
+                //some js code 
+            }, 
+            success:function(msg){ 
+                callback(msg); 
+            }, 
+            error:function(){
+                var obj={
+                    "isSuccess":false,
+                    "message":"server error",
+                    "data":null
+                }
+                callback(obj); 
+            } 
+        });
+    
+    }
+
+    return {
+        getAllUserBookInfo:getAllUserBookInfo
+    }
+
+})();
+
+
 </script>
 
 <style scoped>
