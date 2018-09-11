@@ -4,10 +4,9 @@
    <div class="margin-top-10">
           <i-button type="primary" @click="getAllUser">get all user</i-button>
           <i-button type="primary" @click="getUser">get user</i-button>
-          <i-button type="primary" @click="getUser">add user</i-button>
+          <i-button type="primary" @click="addUserModal">add user</i-button>
     </div>
     <Table class="margin-top-10" height="250" :columns="columns6" :data="data6" size="small" ref="table"></Table>
- 
 
     <div style="width:800px;margin:0 auto;margin-top:30px;">
         <h3>Update User:{{formItem.userName}}</h3>
@@ -48,21 +47,30 @@
 
    </div>
 
-
+   <adduser-modal :formData.sync="formAddUser"></adduser-modal>
  
   </div>
 </template>
 
 <script>
+  
+  import addUser from '../components/addUser.vue'
 
   export default {
     name: 'pageUser',
     components: {
-      
+         'adduser-modal': addUser,
+         props:{
+            showAddUserModal:true,
+        }
     },
     data () {
             return {
-                modal6: false,
+                formAddUser: {
+                    userName: 'aaa',
+                    userAge: 500,
+                    userAddress: 'shenzhen'
+                },
                 loading: true,
                 formItem: {
                     userName: null,
@@ -172,11 +180,13 @@
         },
     methods:{
         show (index) {
-                this.modal6 = true;
                 this.formItem=this.data6[index];
             },
         remove (index) {
             this.data6.splice(index, 1);
+        },
+        addUserModal:function(){
+            alert("cc");
         },
         getUser: function () {
      

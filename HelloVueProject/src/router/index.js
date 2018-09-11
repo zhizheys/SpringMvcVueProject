@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import about from '@/components/about'
+
 import index from '../pages/index.vue'
 import pageQuiButton from '../pages/pageQuiButton.vue'
 import pageQuiList from '../pages/pageQuiList.vue'
@@ -16,11 +15,6 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: about
     },
     {
       path: '/btn',
