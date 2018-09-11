@@ -4,7 +4,7 @@
         v-model="showAddUserModal"
         title="UserInfo"
         :loading="loading"
-        @on-ok="asyncOK"
+        @on-ok="addUser"
         okText='Add User'
         cancelText='Cancel'>
         <div>
@@ -44,7 +44,7 @@ export default {
     return {
       msg:null,
       loading: true,
-      showAddUserModal:true,
+      showAddUserModal:false,
       cityList: [
                     {
                         value: 'shanghai',
@@ -68,15 +68,6 @@ export default {
                 }
     }
   },
-  methods:{
-       
-        asyncOK: () => {
-            setTimeout(() => {
-                this.$Modal.remove();
-                this.$Message.info('Asynchronously close the dialog box');
-            }, 2000);
-        }
-    },
     props: {
       // 这个 prop 属性接收父组件传递进来的值
       formData: Object
@@ -87,17 +78,98 @@ export default {
       formData: {
         immediate: true,
         handler (val) {
-          this.addUserItem = val
+          //this.showAddUserModal = val.showAddUserModal;
         }
       }
+    },
+    methods:{
+        parentHandleclick(e) {
+            alert(e)
+        },
+        showModal:function(){
+            this.showAddUserModal=true;
+        },
+        addUser: function() {
+
+            var userObj=this.addUserItem;
+            var url="http://localhost:9999/hellospringmvcproject/user/adduser";
+            var userJson=JSON.stringify(userObj);
+
+            this.$http.post(url,userObj).then(function(data){
+                var result=data.body;
+                
+                if(result.isSuccess){
+                    this.$Message.success('add user success');
+                    this.showAddUserModal=false;
+                     this.addUserItem={
+                                    userName: null,
+                                    userAge:null,
+                                    userUpdateress: null,
+                                    userPassword: null,
+                                    userBirthday: null
+                                };
+
+                }else{
+                    var message= result.message;
+                    if(result.data !==null && result.data.length > 0){
+                        for(var j=0;j<result.data.length;j++){
+                            message=message + "; " + result.data[j];
+                        }
+                    }
+
+                    this.$Message.error(message);
+                }
+
+
+            },function(response){
+                console.info("=====error=======" + JSON.stringify(response));
+            });
+         
+
+        }
     },
     mounted () {
       // props 是单向数据流，通过触发 update 事件绑定 formData，
       // 将 data 里的 form 指向父组件通过 formData 绑定的那个对象
       // 父组件在绑定 formData 的时候，需要加上 .sync
       //this.$emit('update:formData', this.form)
-    }
+    },
+   
 }
+
+//-----------------------------------
+
+
+var addUserAction=(function(){
+  
+    function saveAddUser(userObj,callback) {
+         var url="http://localhost:9999/hellospringmvcproject/user/adduser";
+            //var userObj=this.formItem;
+            var userJson=JSON.stringify(userObj);
+
+            this.$http.post(url,userObj).then(function(data){
+                var result=data.body;
+                
+                if(result.isSuccess){
+                    alert("add success");
+                    callback("hello");
+                }else{
+                    alert(result.message);
+                }
+
+
+            },function(response){
+                console.info("=====error=======" + JSON.stringify(response));
+            });
+    }
+
+    return {
+        saveAddUser:saveAddUser
+    }
+
+})();
+
+
 </script>
 
 <style scoped>

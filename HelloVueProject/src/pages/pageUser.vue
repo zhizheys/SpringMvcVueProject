@@ -3,73 +3,31 @@
 
    <div class="margin-top-10">
           <i-button type="primary" @click="getAllUser">get all user</i-button>
-          <i-button type="primary" @click="getUser">get user</i-button>
-          <i-button type="primary" @click="addUserModal">add user</i-button>
+          <i-button type="primary" @click="showAddUser">add user</i-button>
     </div>
-    <Table class="margin-top-10" height="250" :columns="columns6" :data="data6" size="small" ref="table"></Table>
+    <Table class="margin-top-10" height="500" :columns="columns6" :data="data6" size="small" ref="table"></Table>
 
-    <div style="width:800px;margin:0 auto;margin-top:30px;">
-        <h3>Update User:{{formItem.userName}}</h3>
-        <Form :model="formItem" :label-width="80">
-            <FormItem label="UserName">
-                <Input v-model="formItem.userName" placeholder="Enter user name ..."></Input>
-            </FormItem>
-            <FormItem label="UserAge">
-                <InputNumber v-model="formItem.userAge" :max="100" :min="0" :step="1" ></InputNumber>
-            </FormItem>
-            <FormItem label="UserAddress">
-                <Select v-model="formItem.userAddress">
-                   <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-            </FormItem>
-            <FormItem label="Birthday">
-                <Row>
-                    <Col span="11">
-                        <DatePicker type="date" placeholder="Select date" v-model="formItem.userBirthday"></DatePicker>
-                    </Col>
-                </Row>
-            </FormItem>
-            <FormItem label="UserPassword">
-                <Input v-model="formItem.userPassword" type="password"></Input>
-            </FormItem>
-            <FormItem label="Radio">
-                <RadioGroup v-model="formItem.radio">
-                    <Radio label="male">Male</Radio>
-                    <Radio label="female">Female</Radio>
-                </RadioGroup>
-            </FormItem>
-    
-            <FormItem>
-                <Button type="primary" @click="updateUser">Update user</Button>
-                <Button style="margin-left: 8px">Cancel</Button>
-            </FormItem>
-        </Form>
+   <adduser-modal ref="mychild"></adduser-modal>
+   <updateuser-modal ref="updateuserchild"></updateuser-modal>
 
-   </div>
-
-   <adduser-modal :formData.sync="formAddUser"></adduser-modal>
- 
   </div>
 </template>
 
 <script>
   
   import addUser from '../components/addUser.vue'
+  import updateUserComponent from '../components/updateUser.vue'
 
   export default {
     name: 'pageUser',
     components: {
          'adduser-modal': addUser,
-         props:{
-            showAddUserModal:true,
-        }
+         'updateuser-modal': updateUserComponent
     },
     data () {
             return {
                 formAddUser: {
-                    userName: 'aaa',
-                    userAge: 500,
-                    userAddress: 'shenzhen'
+                   showAddUserModal:false
                 },
                 loading: true,
                 formItem: {
@@ -154,7 +112,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.show(params.index)
+                                            this.showUpdateUserModel(params.index)
                                         }
                                     }
                                 }, 'Edit'),
@@ -185,8 +143,14 @@
         remove (index) {
             this.data6.splice(index, 1);
         },
-        addUserModal:function(){
-            alert("cc");
+        showAddUser:function(){
+            //console.log("eeeeee");
+            //this.$refs.mychild.parentHandleclick("嘿嘿嘿");
+            this.$refs.mychild.showModal();
+        },
+        showUpdateUserModel:function(index){
+            //this.formItem=this.data6[index];
+            this.$refs.updateuserchild.showUpdateUserModal(this.data6[index]);
         },
         getUser: function () {
      
@@ -223,55 +187,6 @@
 
             },function(response){
                 console.info("=====error=======" + response);
-            });
-                
-        },
-        addUser: function () {
-     
-            var url="http://localhost:9999/hellospringmvcproject/user/adduser";
-            var userObj=this.formItem;
-            var userJson=JSON.stringify(userObj);
-
-            this.$http.post(url,userObj).then(function(data){
-                var result=data.body;
-                
-                if(result.isSuccess){
-                    alert("add success");
-                }else{
-                    alert(result.message);
-                }
-
-
-            },function(response){
-                console.info("=====error=======" + JSON.stringify(response));
-            });
-                
-        },
-        updateUser: function () {
-     
-            var url="http://localhost:9999/hellospringmvcproject/user/updateuser";
-            var userObj=this.formItem;
-            var userJson=JSON.stringify(userObj);
-     
-            this.$http.put(url,userObj).then(function(data){
-                var result=data.body;
-                
-                if(result.isSuccess){
-                    alert("update success");
-                    this.formItem={
-                                    userName: null,
-                                    userAge:null,
-                                    userAddress: null,
-                                    radio: null,
-                                    userPassword: null,
-                                    userBirthday: null,
-                                };
-                }else{
-                    alert(result.message);
-                }
-
-            },function(response){
-                console.info("=====error=======" + JSON.stringify(response));
             });
                 
         }
