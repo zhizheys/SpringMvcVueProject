@@ -14,7 +14,8 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     main: './src/main.js',
-    book: './src/modules/book/book.js'
+    book: './src/modules/book/book.js',
+    user: './src/modules/user/user.js'
   },
   output: {
     path: config.build.assetsRoot,
