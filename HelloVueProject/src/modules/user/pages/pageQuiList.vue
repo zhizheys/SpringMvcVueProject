@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import quiList from '../components/quiList.vue'
+  import quiList from './../../../components/quiList.vue'
   export default {
     name: 'pageQuiList',
     components: {

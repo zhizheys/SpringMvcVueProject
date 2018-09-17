@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import index from './../modules/book/pages/index.vue'
+import index from './../modules/book/pages/pageIndex.vue'
 import pageBook from './../modules/book/pages/pageBook.vue'
 
 Vue.use(Router)

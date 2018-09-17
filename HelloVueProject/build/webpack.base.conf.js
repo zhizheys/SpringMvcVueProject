@@ -13,7 +13,7 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    main: './src/main.js',
+    main: './src/modules/main/main.js',
     book: './src/modules/book/book.js',
     user: './src/modules/user/user.js'
   },

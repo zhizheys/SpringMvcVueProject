@@ -1,20 +1,28 @@
 <template>
   <div id="pageUser" style="margin-top:20px;">
-   <h2>all user book </h2>
-   
+
+   <div class="margin-top-10">
+          <i-button type="primary" @click="getAllUser">get all user</i-button>
+          <i-button type="primary" @click="showAddUser">add user</i-button>
+    </div>
+    <Table class="margin-top-10" height="500" :columns="columns6" :data="data6" size="small" ref="table"></Table>
+
+   <adduser-modal ref="mychild"></adduser-modal>
+   <updateuser-modal ref="updateuserchild"></updateuser-modal>
+
   </div>
 </template>
 
 <script>
   
-  //import addUser from '../components/addUser.vue'
-  //import updateUserComponent from '../components/updateUser.vue'
+  import addUser from './../../../components/addUser.vue'
+  import updateUserComponent from './../../../components/updateUser.vue'
 
   export default {
     name: 'pageUser',
     components: {
-         //'adduser-modal': addUser,
-         //'updateuser-modal': updateUserComponent
+         'adduser-modal': addUser,
+         'updateuser-modal': updateUserComponent
     },
     data () {
             return {

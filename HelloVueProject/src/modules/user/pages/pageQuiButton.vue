@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import quiBtn from '../components/quiButton.vue'
+  import quiBtn from './../../../components/quiButton.vue'
   export default {
     name: 'pageQuiButton',
     components: {
