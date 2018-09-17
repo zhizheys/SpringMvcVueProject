@@ -1,30 +1,7 @@
 
 <template>
   <div id="pageIndex">
-     <div style="margin:10px auto;width:500px;">
-        <h1>the  index page index vue</h1>
-
-       <RadioGroup v-model="phone">
-            <Radio label="apple">
-                <Icon type="logo-apple"></Icon>
-                <span>Apple</span>
-            </Radio>
-            <Radio label="android">
-                <Icon type="logo-android"></Icon>
-                <span>Android</span>
-            </Radio>
-            <Radio label="windows">
-                <Icon type="logo-windows"></Icon>
-                <span>Windows</span>
-            </Radio>
-        </RadioGroup>
-        <RadioGroup v-model="animal">
-            <Radio label="香蕉"></Radio>
-            <Radio label="苹果"></Radio>
-            <Radio label="哈密瓜"></Radio>
-        </RadioGroup>
-     </div>
-
+      <p>module info is: {{msg}}</p>
   </div>
 </template>
 
@@ -42,6 +19,7 @@
       },
       data () {
             return {
+                msg:'aaa',
                  visible: false,
                  phone: 'apple',
                 animal: '爪哇犀牛',
