@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import quiNav from './../../../components/quiNav.vue'
+  import quiNav from './../../../components/common/quiNav.vue'
   export default {
     name: 'pageQuiNav',
     components: {

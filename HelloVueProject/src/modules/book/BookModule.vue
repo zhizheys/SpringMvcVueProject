@@ -1,33 +1,36 @@
 <template>
   <div id="bookapp">
-    <img src="./../../assets/msLogo.gif">
-    <div class="mod-module mod-parallel">
-  
-    <Menu mode="horizontal" active-name="0">
-       <MenuItem name="0">
-            <Icon type="ios-paper" />
-            <a class="page-link" href="#/"></a>
-            图书首页
-        </MenuItem>
-        <MenuItem name="1">
-            <Icon type="ios-paper" />
-            <a class="page-link" href="#/book"></a>
-            图书管理
-        </MenuItem>
-      
-    </Menu>
-
-    
-  </div>
+    <div style="height:50px;line-height:50px;margin-top:20px;">
+      <header-info></header-info>
+    </div>
+    <div class="mod-module mod-parallel" style="margin-left:0px;padding-left:0px;">
+      <Menu mode="horizontal" active-name="0">
+        <MenuItem name="0">
+              <Icon type="ios-paper" />
+              <a class="page-link" href="#/"></a>
+              图书首页
+          </MenuItem>
+          <MenuItem name="1">
+              <Icon type="ios-paper" />
+              <a class="page-link" href="#/book"></a>
+              图书管理
+          </MenuItem>
+      </Menu>
+    </div>
 
     <router-view/>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Book'
-}
+  import header from './../../components/common/header.vue'
+
+  export default {
+    name: 'Book',
+    components: {
+         'header-info': header,
+    },
+  }
 </script>
 
 <style>
@@ -37,9 +40,8 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color:blueviolet;
-  margin-top: 60px;
+  text-align: left;
+
 }
 
 /*列表*/

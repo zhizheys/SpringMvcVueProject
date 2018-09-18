@@ -1,7 +1,6 @@
 <template>
   <div id="pageUser" style="margin-top:20px;">
    <h2>all the book </h2>
-   
   </div>
 </template>
 

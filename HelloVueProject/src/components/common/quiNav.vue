@@ -46,7 +46,7 @@
   }
 </script>
 <style scoped>
-  @import './css/reset.import.css';
-  @import './css/qui-nav.import.css';
+  @import './../css/reset.import.css';
+  @import './../css/qui-nav.import.css';
 </style>
 

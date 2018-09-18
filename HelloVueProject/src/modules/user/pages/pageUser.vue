@@ -15,8 +15,8 @@
 
 <script>
   
-  import addUser from './../../../components/addUser.vue'
-  import updateUserComponent from './../../../components/updateUser.vue'
+  import addUser from './../../../components/user/addUser.vue'
+  import updateUserComponent from './../../../components/user/updateUser.vue'
 
   export default {
     name: 'pageUser',
