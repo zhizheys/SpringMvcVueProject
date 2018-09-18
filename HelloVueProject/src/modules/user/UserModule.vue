@@ -1,5 +1,5 @@
 <template>
-  <div id="userapp">
+  <div id="userModuleDiv">
     <div style="height:50px;line-height:50px;margin-top:20px;">
       <header-info></header-info>
     </div>

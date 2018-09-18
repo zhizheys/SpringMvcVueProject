@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="appModuleDiv">
      
     <div style="width:800px;margin:100px auto;">
       <div><img src="static/image/msLogo.gif"></div>
