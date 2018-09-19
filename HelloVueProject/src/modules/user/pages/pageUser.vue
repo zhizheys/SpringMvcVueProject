@@ -192,8 +192,10 @@
         },
         getAllUser: function () {
      
-            var url="http://localhost:9999/hellospringmvcproject/user/showalluser";
-            
+            //var url="http://localhost:9999/hellospringmvcproject/user/showalluser";
+            var url="http://localhost/user/api/user/Showalluser";
+
+
             this.$http.get(url).then(function(data){
                 var result=data.body;
                 
