@@ -15,6 +15,11 @@
               <a class="page-link" href="#/book"></a>
               图书管理
           </MenuItem>
+          <MenuItem name="2">
+              <Icon type="ios-paper" />
+              <a class="page-link" href="#/uploadbook"></a>
+              上传文件
+          </MenuItem>
       </Menu>
     </div>
 
