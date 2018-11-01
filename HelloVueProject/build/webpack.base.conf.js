@@ -15,7 +15,8 @@ module.exports = {
   entry: {
     main: './src/modules/main/main.js',
     book: './src/modules/book/book.js',
-    user: './src/modules/user/user.js'
+    user: './src/modules/user/user.js',
+    usfiling: './src/modules/usfiling/usfiling.js'
   },
   output: {
     path: config.build.assetsRoot,

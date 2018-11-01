@@ -1,0 +1,112 @@
+<template>
+  <div id="usfilingModuleDiv">
+    <div style="height:50px;line-height:50px;margin-top:10px;margin-left:20px;">
+      <header-info></header-info>
+      <span style="font-size: 22px;padding-left: 30px;">USFiling  Automation</span>
+    </div>
+    <div class="mod-module mod-parallel" style="margin-left:0px;padding-left:0px;margin-top:30px;">
+      <Menu mode="horizontal" active-name="0">
+        <MenuItem name="0">
+              <Icon type="ios-paper" />
+              <a class="page-link" href="#/"></a>
+              Parse Data
+          </MenuItem>
+          <MenuItem name="1">
+              <Icon type="ios-paper" />
+              <a class="page-link" href="#/usfiling"></a>
+              Filing List
+          </MenuItem>
+          <MenuItem name="2">
+              <Icon type="ios-paper" />
+              <a class="page-link" href="#/parseprocess"></a>
+              Parse Process
+          </MenuItem>
+      </Menu>
+    </div>
+
+    <router-view/>
+  </div>
+</template>
+
+<script>
+  import header from './../../components/common/header.vue'
+
+  export default {
+    name: 'Usfiling',
+    components: {
+         'header-info': header,
+    },
+  }
+</script>
+
+<style>
+
+
+#usfilingapp {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+
+}
+
+/*列表*/
+.mod-parallel{
+  overflow: hidden;
+}
+.mod-parallel .img-list{
+  overflow: hidden;
+  padding-top: 8px;
+}
+.mod-parallel .img-list .img-box{
+  height: 50px;
+  border: none;
+  width: 25%;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  float: left;
+  margin: 0 0 8px 0;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.mod-parallel .img-list .img-item{
+  display: block;
+  width: 100%;
+  margin: 0;
+  background-position: 50% 50%;
+  background-color: #19C3FF;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 100%;/*宽高比*/
+}
+.mod-parallel .img-list.type-full{
+  margin: 0 -1px;
+}
+.mod-parallel .img-list.type-full .img-box{
+  border-right-width: 1px;
+  border-left-width: 1px;
+  margin: 0 0 2px 0;
+}
+.mod-parallel .img-list.type-full .img-item{
+  border-radius: 0;
+}
+.mod-parallel a,
+.mod-parallel .page-link{
+  position: absolute;
+  display: block;
+  text-align: center;
+  height: 100%;
+  top: 0;
+  color: #fff;
+  text-decoration: none;
+  line-height: inherit;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+
+
+</style>

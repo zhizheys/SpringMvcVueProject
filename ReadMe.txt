@@ -24,4 +24,6 @@
 	(10)vue.js 文件上传，下载  未实现
 	(11)vue.js与第三方UI库配合使用， 如：iview
 	(12)spring mvc 与 junit 单元测试 未实现
-	(13)
+	
+	
+5. HelloVueProject 中首页内容链接可能有些没有添加 book, user

@@ -1,7 +1,6 @@
 <template>
   <div>
-      <div style="float:left;"><img src="./../../assets/msLogo.gif"></div>
-      <div style="margin-left:200px;"><h3><a href="index.html">to index page</a></h3></div>
+      <div style="float:left;"><a href="index.html"><img src="./../../assets/msLogo.gif"></a></div>
   </div>
 </template>
 

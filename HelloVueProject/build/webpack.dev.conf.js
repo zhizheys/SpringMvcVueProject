@@ -73,6 +73,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       chunks : ['user'], //打包时只打包main和a的js文件，见entry，注意使用chunks时模板index.html文件里面不允许有script标签，即使注释掉也会报错
       date : new Date()
     }),
+    new HtmlWebpackPlugin({
+      filename: 'usfiling.html',
+      template: 'usfiling.html',
+      inject: true,
+      chunks : ['usfiling'], //打包时只打包main和a的js文件，见entry，注意使用chunks时模板index.html文件里面不允许有script标签，即使注释掉也会报错
+      date : new Date()
+    }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
