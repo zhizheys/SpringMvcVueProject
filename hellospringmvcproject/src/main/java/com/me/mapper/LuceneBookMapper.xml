@@ -4,8 +4,8 @@
 <mapper namespace="com.me.mapper.LuceneBookMapper">
 
     
-    <select id="getAllUser"  resultType="com.me.entity.LuceneBook">
-        select * from [dbo].[LuceneBook]
+    <select id="getAllLuceneBook"  resultType="com.me.entity.LuceneBook">
+        select * from [dbo].[lucene_book]
     </select>
     
 

@@ -27,3 +27,8 @@
 	
 	
 5. HelloVueProject 中首页内容链接可能有些没有添加 book, user
+
+
+6. 添加了Lucene 7.5.0 与IKAnalyser 6.5.0 的全文搜索功能； 我们可以使用luke 查询索引文件内容
+
+
